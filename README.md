@@ -51,8 +51,20 @@ The parameter **ddepth** specifies the precision of the output image, while **dx
  
  The above two steps are as same as Sobels method 
  
- 3) Suppression of false Edges
- 4) Hysteresis Thresholding
+ 3) Suppression of false Edges:
+
+After reducing noise and calculating the intensity gradient, the algorithm in this step uses a technique called non-maximum suppression of edges to filter out unwanted pixels (which may not actually constitute an edge). To accomplish this, each pixel is compared to its neighboring pixels, in the positive and negative gradient direction. If the gradient magnitude of the current pixel is greater than its neighbouring pixels, it is left unchanged. Otherwise, the magnitude of the current pixel is set to zero.
+
+ 4) Hysteresis Thresholding:
+
+In this final step of Canny Edge Detection, the gradient magnitudes are compared with two threshold values, one smaller than the other.
+- If the gradient magnitude value is higher than the larger threshold value, those pixels are associated with strong edges, and are included in the final edge map.
+- If the gradient magnitude values are lower than the smaller threshold value, the pixels are suppressed, and excluded from the final edge map.
+- All the other pixels, whose gradient magnitudes fall in between these two thresholds, are marked as ‘weak’ edges (i.e. they become candidates for being included in the final edge map).
+- If the ‘weak’ pixels are connected  to those associated with strong edges, then they too are included in the final edge map. 
+
+syntax: **Canny(image, threshold1, threshold2)**
+
  
  
 
